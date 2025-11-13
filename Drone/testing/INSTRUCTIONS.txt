@@ -6,3 +6,13 @@ Open a terminal and execute app.py, which is found in the mqttui folder.
 Then open a browser and connect via: localhost:5000
 
 The local server broker and debug setup is now complete.
+
+In order to flash the esp32, you will need to use esptool.py.
+This tool can be found in the Scripts folder of your python installation.
+
+In a terminal, execute: where python
+
+Look for the Scripts folder within the python folder.
+
+Use mpremote to test and upload code to the esp32.
+In a terminal, simply write: mpremote

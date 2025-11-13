@@ -2,3 +2,4 @@
 *.weights
 *.cfg
 *.pt
+*.pdf
