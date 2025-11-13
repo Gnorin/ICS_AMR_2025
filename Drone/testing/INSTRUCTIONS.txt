@@ -1,0 +1,8 @@
+For the testing to work, you need to open a mosquitto broker.
+This can be done by in a terminal by writing: mosquitto -v
+
+Then, you also need the deub tool. In our case, we are using mqttui.
+Open a terminal and execute app.py, which is found in the mqttui folder.
+Then open a browser and connect via: localhost:5000
+
+The local server broker and debug setup is now complete.
