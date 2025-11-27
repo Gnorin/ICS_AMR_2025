@@ -16,3 +16,5 @@ Look for the Scripts folder within the python folder.
 
 Use mpremote to test and upload code to the esp32.
 In a terminal, simply write: mpremote
+
+To see the model of the esp32, use: esptool.py --port COMx chip_id
