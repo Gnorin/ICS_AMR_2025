@@ -1,0 +1,1 @@
+yolo classify train model=yolov8s-cls.pt data=dataset epochs=30 imgsz=224 batch=32
