@@ -1,8 +1,14 @@
 from ultralytics import YOLO
 import cv2
+import os
 
-detector = YOLO("yolov8s.pt")
-classifier = YOLO("best.pt")
+base_path = os.path.dirname(os.path.realpath(__file__))
+
+detector_path = os.path.join(base_path, "yolov8s.pt")
+classifier_path = os.path.join(base_path, "best.pt")
+
+detector = YOLO(detector_path)
+classifier = YOLO(classifier_path)
 
 cap = cv2.VideoCapture(0)
 

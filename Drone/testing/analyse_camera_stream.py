@@ -2,7 +2,7 @@ import cv2 as cv
 from ultralytics import YOLO
 
 stream = cv.VideoCapture(0)
-model = YOLO("yolov8n.pt")
+model = YOLO("yolov8s.pt")
 
 while True:
     ret, frame = stream.read()
