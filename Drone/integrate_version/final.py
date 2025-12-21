@@ -1,3 +1,4 @@
+import os
 import cv2                          
 from ultralytics import YOLO        
 import paho.mqtt.client as mqtt     
@@ -13,9 +14,9 @@ from flask import Flask, Response   # to build up the one-page website for video
 
 # --- video resource setting ---
 # ESP32-CAM streaming website *must to include :81/stream to get MJPEG streaming
-STREAM_URL = "http://192.168.0.87:81/stream" 
+STREAM_URL = "http://xxx.xxx.x.xx:xx/stream" 
 #STREAM_URL = 0
-
+os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 # --- MQTT broker setting ---
 MQTT_BROKER = "xxx.xxx.xx.xxx"       # MQTT Broker IP
 MQTT_PORT = 1883                    # MQTT port
@@ -38,8 +39,8 @@ CENTER_X = FRAME_WIDTH // 2         # image center
 DEAD_ZONE = 100                     # tolerant error
 
 KP = 0.5 
-BASE_SPEED = 160 
-MAX_SPEED = 230  
+BASE_SPEED = 140 
+MAX_SPEED = 200  
 
 # --- distant control parameters ---
 MIN_AREA = 80000                    # body frame < this value : too far (go forward)
@@ -84,6 +85,7 @@ def on_message(client, userdata, msg):
         else:
             is_follow_mode = False
             print("Stop following!")
+            client.publish(TOPIC_CMD, "0,0")
 
 client = mqtt.Client()
 client.on_message = on_message
@@ -109,21 +111,17 @@ classifier = YOLO("best.pt")
 def processing_thread():
     global outputFrame, lock, is_follow_mode
     
+    os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp|stimeout;60000000|timeout;60000000"
     cap = cv2.VideoCapture(STREAM_URL)
     
     last_cmd = ""       # record the last message
     last_alert_time = 0 # record the time
-    
-    # If there's fallen detection : stop the car
     is_emergency_stop = False 
 
     def send_drive_cmd(cmd):
         nonlocal last_cmd
         
-        if not is_follow_mode:
-            return 
-
-        if is_emergency_stop:
+        if not is_follow_mode or is_emergency_stop:
             return 
 
         if cmd != last_cmd:
@@ -138,19 +136,30 @@ def processing_thread():
 
     # --- continously reading video ---
     while True:
+        if cap is None or not cap.isOpened():
+            print("Camera not connected. Retrying in 3 seconds...")
+            time.sleep(3) 
+            cap = cv2.VideoCapture(STREAM_URL)
+            continue
+
         ret, frame = cap.read() 
         
         # reading fail
         if not ret:
-            print("Try to reconnect...")
+            print("Frame lost / Stream disconnected. Reconnecting...")
+            cap.release()
             time.sleep(2)
             cap = cv2.VideoCapture(STREAM_URL) 
             continue
 
-        # make sure the size of image is correct!
+        if frame is None or frame.size == 0:
+            print("Empty frame received. Skipping.")
+            continue
+
         try:
             frame = cv2.resize(frame, (FRAME_WIDTH, FRAME_HEIGHT))
-        except:
+        except cv2.error as e:
+            print(f"Resize error: {e}")
             continue
         
         # --------------------------------------
@@ -213,10 +222,10 @@ def processing_thread():
                             if (time.time() - last_alert_time) > 60.0:
                                 print(f"Someone falls!!!")
                                 
-                                client.publish(TOPIC_ALERT, "fall_detected")
-                                
+                                client.publish(TOPIC_ALERT, "fall_detected")                                
                                 client.publish(TOPIC_MODE, "manual") 
-                                
+                                client.publish(TOPIC_CMD, "0,0")
+
                                 zone = send_simulated_location()
                                 print(f"Dispatch UAV to: {zone}")
                                 
@@ -314,7 +323,7 @@ def processing_thread():
         # ESC: exit
         #info_debug = f"Area: {int(box_area)} | Ratio: {cover_ratio:.2f}"
         #cv2.putText(frame, info_debug, (10, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
-        cv2.imshow("AI Monitor", frame)
+        cv2.imshow("Monitor", frame)
         if cv2.waitKey(1) == 27: break
 
     cap.release()

@@ -1,0 +1,50 @@
+[
+    {
+        "id": "399ef9240d7059aa",
+        "type": "ui_template",
+        "z": "9fb6353075fc0809",
+        "group": "3bcfafcb43bb9a1a",
+        "name": "",
+        "order": 1,
+        "width": 14,
+        "height": "12",
+        "format": "<div style=\"\n    display: flex; \n    justify-content: center; \n    align-items: center; \n    height: 100%; \n    width: 100%; \n    overflow: hidden;\">\n\n    <img src=\"computer ip:5000/video_feed\"\n         style=\"\n            max-width: 100%; \n            max-height: 100%; \n            object-fit: contain; \n            border-radius: 8px;\">\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 180,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3bcfafcb43bb9a1a",
+        "type": "ui_group",
+        "name": "stream",
+        "tab": "2b88a70882a5f9e1",
+        "order": 3,
+        "disp": true,
+        "width": 14,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2b88a70882a5f9e1",
+        "type": "ui_tab",
+        "name": "Command Center",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "33f9bfe32b43fe7e",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
