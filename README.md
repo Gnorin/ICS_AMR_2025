@@ -10,6 +10,7 @@ ICS_AMR_2025
 2.Arduino(ESP32/ESP32-CAM)
 *開發環境*
 -Tools->Board->Boards Manager->安裝"esp32"
+-Board: ESP32 Dev Module
 -<WiFi.h>: Wi-Fi功能 ; <PubSubClient.h>: MQTT通訊協議
 
 *Wi-Fi&MQTT*
@@ -40,6 +41,7 @@ ICS_AMR_2025
 -在我們專題所使用的MQTT Broker即是Node-RED中的外掛節點，在此我們不須額外下載Mosquitto，Node-RED同時擔任了MQTT Broker的身分
 -需額外下載的模組(位於節點管理):node-red-contrib-aedes(上述所提的MQTT Broker); node-red-dashboard(儀表板=監控中心介面)
 -須前往儀表板，只需在原始網址(撰寫流程的網址)上加上"/ui"
+-從python端接收來的影像網址會顯示在python的cmd上，將該網址複製至template節點，並加上":5000/video_feed"(python端所設定的)即可在監控中心看到經處理的串流畫面
 
 
 

@@ -14,11 +14,11 @@ from flask import Flask, Response   # to build up the one-page website for video
 
 # --- video resource setting ---
 # ESP32-CAM streaming website *must to include :81/stream to get MJPEG streaming
-STREAM_URL = "http://xxx.xxx.x.xx:xx/stream" 
+STREAM_URL = "http://xx.xx.xxx.xxx:81/stream" 
 #STREAM_URL = 0
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 # --- MQTT broker setting ---
-MQTT_BROKER = "xxx.xxx.xx.xxx"       # MQTT Broker IP
+MQTT_BROKER = "xxx.xxx.xxx.xxx"       # MQTT Broker IP
 MQTT_PORT = 1883                    # MQTT port
 
 # --- MQTT topic setting ---

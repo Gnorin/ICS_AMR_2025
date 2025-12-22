@@ -8,7 +8,7 @@
         "order": 1,
         "width": 14,
         "height": "12",
-        "format": "<div style=\"\n    display: flex; \n    justify-content: center; \n    align-items: center; \n    height: 100%; \n    width: 100%; \n    overflow: hidden;\">\n\n    <img src=\"computer ip:5000/video_feed\"\n         style=\"\n            max-width: 100%; \n            max-height: 100%; \n            object-fit: contain; \n            border-radius: 8px;\">\n</div>",
+        "format": "<div style=\"\n    display: flex; \n    justify-content: center; \n    align-items: center; \n    height: 100%; \n    width: 100%; \n    overflow: hidden;\">\n\n    <img src=\"@route shows on python/video_feed\"\n            style=\"\n            max-width: 100%; \n            max-height: 100%; \n            object-fit: contain; \n            border-radius: 8px;\">\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
@@ -40,7 +40,7 @@
         "hidden": false
     },
     {
-        "id": "33f9bfe32b43fe7e",
+        "id": "f25110fe27933c52",
         "type": "global-config",
         "env": [],
         "modules": {
